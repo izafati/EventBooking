@@ -20,13 +20,11 @@ public class AttendeesService {
         contact.Email
       );
       try {
-        CalloutData.AttendeesResponse attendeesResponse = Test.isRunningTest()
-          ? new CalloutData.AttendeesResponse(true, null)
-          : HttpCalloutService.registerAttendeesRequest(
-              REGISTER_ATTENDEES_PARAMS,
-              JSON.serialize(attendeesRequest),
-              CalloutData.AttendeesResponse.class
-            );
+        CalloutData.AttendeesResponse attendeesResponse = HttpCalloutService.registerAttendeesRequest(
+          REGISTER_ATTENDEES_PARAMS,
+          JSON.serialize(attendeesRequest),
+          CalloutData.AttendeesResponse.class
+        );
         if (attendeesResponse.isSuccess) {
           EmailService.notifyAttendeeByEmail(contact);
         }

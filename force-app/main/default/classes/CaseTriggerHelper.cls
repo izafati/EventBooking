@@ -73,8 +73,6 @@ public class CaseTriggerHelper {
     ];
     Set<Id> accountIds = new Set<Id>();
     for (Case hotelCase : cases) {
-      //   ExternalSystemService service = new ExternalSystemService();
-      //   service.registerAttendees(hotelCase);
       accountIds.add(hotelCase.AccountId);
     }
     AttendeesService.registerAttendees(accountIds);

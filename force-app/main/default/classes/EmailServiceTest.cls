@@ -36,10 +36,17 @@ public class EmailServiceTest {
     );
 
     Test.startTest();
+    Integer pastEmailInvocations = Limits.getEmailInvocations();
     Messaging.SendEmailResult[] results = EmailService.notifyAttendeeByEmail(
       contact1
     );
+    Integer currentEmailInvocations = Limits.getEmailInvocations();
     Test.stopTest();
+    System.assertEquals(
+      pastEmailInvocations + 1,
+      currentEmailInvocations,
+      'Email was not sent'
+    );
 
     System.assertEquals(
       results[0].success,
@@ -74,16 +81,25 @@ public class EmailServiceTest {
     Exception emailException;
     Messaging.SendEmailResult[] results;
     Test.startTest();
+    Integer pastEmailInvocations = Limits.getEmailInvocations();
     try {
       results = EmailService.notifyAttendeeByEmail(contact1);
     } catch (Exception e) {
       emailException = e;
     }
+    Integer currentEmailInvocations = Limits.getEmailInvocations();
     Test.stopTest();
+
     System.assertNotEquals(
       emailException,
       null,
       'an exception should be thrown.'
+    );
+
+    System.assertEquals(
+      pastEmailInvocations,
+      currentEmailInvocations,
+      'Email was sent'
     );
   }
 }
